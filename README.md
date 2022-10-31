@@ -57,6 +57,8 @@ Detailed:
     -s, --sort            Sort primitive values in arrays before comparing
     -k, --keys-only       Compare only the keys, ignore the differences in values
     -K, --keep-unchanged-values   Instead of omitting values that are equal, output them as they are
+    -d, --hide-unchanged-indicators  Ommit the empty array string indicator ([ \' \' ]) representing
+                                      unchanged values in arrays
     -p, --precision DECIMALS  Round all floating point numbers to this number of decimal places prior
                                 to comparison
 
@@ -65,17 +67,17 @@ Detailed:
 In javascript (ES5):
 
     var jsonDiff = require('json-diff')
-    
+
     console.log(jsonDiff.diffString({ foo: 'bar' }, { foo: 'baz' }));
     // Output:
     //  {
     // -  foo: "bar"
     // +  foo: "baz"
     //  }
-    
+
     // As above, but without console colors
     console.log(jsonDiff.diffString({ foo: 'bar' }, { foo: 'baz' }, {color:false}));
-    
+
     // Raw output:
     console.log(jsonDiff.diff({ foo: 'bar', b:3}, { foo: 'baz', b:3}));
     // Output:
@@ -85,12 +87,12 @@ In javascript (ES5):
     console.log(jsonDiff.diff({ foo: 'bar', b:3}, { foo: 'baz', b:3}, {full:true}));
     // Output:
     // { foo: { __old: 'bar', __new: 'baz' }, b: 3 }
-    
+
 
 In javascript (ES6+):
 
     import { diffString, diff } from 'json-diff';
-    
+
     console.log(diffString({ foo: 'bar' }, { foo: 'baz' }));
     console.log(diff({ foo: 'bar' }, { foo: 'baz' }));
 
@@ -128,7 +130,7 @@ Object property values:
 >
     json-diff.js --full  --raw-json <(echo '{"a":4}') <(echo '{"a":5}')
         { "a": { "__old": 4, "__new": 5 } }
-    
+
 * Unequal arrays and objects are replaced by their diff:
 >
     json-diff.js --full  --raw-json <(echo '{"a":[4,5]}') <(echo '{"a":[4,6]}')
@@ -260,10 +262,10 @@ Output:
 
   diff({ outputKeys: foo,bar }
     ✔ should return keys foo and bar although they have no changes
-    ✔ should return keys foo (with addition) and bar (with no changes) 
-    ✔ should return keys foo and bar (with addition) 
+    ✔ should return keys foo (with addition) and bar (with no changes)
+    ✔ should return keys foo and bar (with addition)
     ✔ should return nothing as the entire object is equal, no matter that show keys has some of them
-    ✔ should return the keys of an entire object although it has no changes 
+    ✔ should return the keys of an entire object although it has no changes
 
   diff({keysOnly: true})
     with simple scalar values
